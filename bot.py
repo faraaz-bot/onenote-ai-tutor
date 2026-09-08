@@ -1,8 +1,9 @@
 import os
 import requests
 from flask import Flask, request, render_template
-from dotenv import load_dotenv
+from dotenv import load_dotenv, set_key
 from ai_pipeline import OneNoteAITutorPipeline
+from token_manager import get_persisted_access_token
 
 load_dotenv()
 
@@ -13,11 +14,11 @@ TENANT_ID = os.getenv("TENANT_ID", "common")
 REDIRECT_URI = os.getenv("REDIRECT_URI", "http://localhost:8000/callback")
 
 app = Flask(__name__)
-token_store = {}
 
 @app.route("/")
 def index():
-    if "access_token" not in token_store:
+    refresh_token = os.getenv("MICROSOFT_REFRESH_TOKEN")
+    if not refresh_token:
         auth_url = (
             f"https://login.microsoftonline.com/{TENANT_ID}/oauth2/v2.0/authorize?"
             f"client_id={CLIENT_ID}&response_type=code&redirect_uri={REDIRECT_URI}&"
@@ -25,8 +26,10 @@ def index():
         )
         return render_template("index.html", authenticated=False, auth_url=auth_url)
     
-    headers = {"Authorization": f"Bearer {token_store['access_token']}"}
+    # Try fetching notebooks using background token manager
     try:
+        access_token = get_persisted_access_token()
+        headers = {"Authorization": f"Bearer {access_token}"}
         nb_res = requests.get("https://graph.microsoft.com/v1.0/me/onenote/notebooks", headers=headers)
         nb_res.raise_for_status()
         notebooks_raw = nb_res.json().get("value", [])
@@ -44,7 +47,9 @@ def index():
             
         return render_template("index.html", authenticated=True, notebooks=notebooks_data)
     except Exception as e:
-        return f"<h3>Error loading notebooks: {e}</h3><p><a href='/'>Retry Login</a></p>"
+        # If refresh token expired or invalid, prompt re-login
+        os.environ.pop("MICROSOFT_REFRESH_TOKEN", None)
+        return f"<h3>Session expired or error: {e}</h3><p><a href='/'>Click here to re-authenticate</a></p>"
 
 @app.route("/callback")
 def callback():
@@ -62,15 +67,24 @@ def callback():
         return f"Token exchange failed: {res.text}"
         
     data = res.json()
-    token_store["access_token"] = data["access_token"]
+    refresh_token = data.get("refresh_token")
+    if refresh_token:
+        os.environ["MICROSOFT_REFRESH_TOKEN"] = refresh_token
+        try:
+            set_key(".env", "MICROSOFT_REFRESH_TOKEN", refresh_token)
+        except Exception:
+            pass
+            
     return '<script>window.location.href="/";</script>'
 
 @app.route("/process-section/<section_id>")
 def process_section(section_id):
-    if "access_token" not in token_store:
-        return "Not authenticated. <a href='/'>Login</a>"
+    try:
+        access_token = get_persisted_access_token()
+    except Exception as e:
+        return f"Not authenticated: {e}. <a href='/'>Login</a>"
         
-    pipeline = OneNoteAITutorPipeline(token_store["access_token"], GEMINI_API_KEY)
+    pipeline = OneNoteAITutorPipeline(access_token, GEMINI_API_KEY)
     results = pipeline.process_lecture_section(section_id)
     
     html = """
@@ -99,6 +113,24 @@ def process_section(section_id):
     </html>
     """
     return html
+
+# --- Webhook Endpoint for Auto-Triggers ---
+@app.route("/webhook", methods=["POST", "GET"])
+def webhook():
+    """Microsoft Graph webhook notifications endpoint"""
+    if request.method == "GET":
+        # Graph validation handshake
+        validation_token = request.args.get("validationToken", "")
+        return validation_token, 200, {"Content-Type": "text/plain"}
+        
+    # Handle incoming notification when new slide is added
+    notifications = request.json.get("value", [])
+    for notification in notifications:
+        resource = notification.get("resource")
+        # Extract section ID from resource path if possible, or trigger processing
+        print(f"Webhook notification received for resource: {resource}")
+        
+    return "Received", 202
 
 if __name__ == "__main__":
     app.run(port=8000)
