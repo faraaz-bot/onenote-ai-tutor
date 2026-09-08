@@ -5,3 +5,5 @@ pytesseract
 google-genai
 gunicorn
 python-dotenv
+watchdog
+pypdf
