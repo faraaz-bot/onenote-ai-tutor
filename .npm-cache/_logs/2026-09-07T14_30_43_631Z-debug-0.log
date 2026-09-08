@@ -1,0 +1,78 @@
+0 verbose cli /usr/local/bin/node /usr/local/lib/node_modules/npm/bin/npm-cli.js
+1 info using npm@11.13.0
+2 info using node@v24.16.0
+3 silly config load:file:/usr/local/lib/node_modules/npm/npmrc
+4 silly config load:file:/Users/faraazmustafa/VSCodee/.npmrc
+5 silly config load:file:/Users/faraazmustafa/.npmrc
+6 silly config load:file:/usr/local/etc/npmrc
+7 verbose title npm exec altalt
+8 verbose argv "exec" "--" "altalt"
+9 verbose logfile logs-max:10 dir:/tmp/.npm-cache/_logs/2026-09-07T14_30_43_631Z-
+10 verbose logfile /tmp/.npm-cache/_logs/2026-09-07T14_30_43_631Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:4496293888 maxSize:1124073472 maxEntrySize:562036736
+13 http fetch GET 200 https://registry.npmjs.org/altalt 94ms (cache revalidated)
+14 silly packumentCache heap:4496293888 maxSize:1124073472 maxEntrySize:562036736
+15 silly packumentCache heap:4496293888 maxSize:1124073472 maxEntrySize:562036736
+16 verbose shrinkwrap failed to load node_modules/.package-lock.json missing from lockfile: node_modules/altalt
+17 silly idealTree buildDeps
+18 silly fetch manifest altalt@0.2.4
+19 silly packumentCache full:https://registry.npmjs.org/altalt cache-miss
+20 http cache https://registry.npmjs.org/altalt 3ms (cache hit)
+21 silly packumentCache full:https://registry.npmjs.org/altalt set size:12420 disposed:false
+22 silly placeDep ROOT altalt@0.2.4 OK for:  want: 0.2.4
+23 silly fetch manifest @clack/prompts@0.11.0
+24 silly packumentCache full:https://registry.npmjs.org/@clack%2fprompts cache-miss
+25 http cache https://registry.npmjs.org/@clack%2fprompts 2ms (cache hit)
+26 silly packumentCache full:https://registry.npmjs.org/@clack%2fprompts set size:176111 disposed:false
+27 silly placeDep ROOT @clack/prompts@0.11.0 OK for: altalt@0.2.4 want: 0.11.0
+28 silly fetch manifest picocolors@^1.0.0
+29 silly packumentCache full:https://registry.npmjs.org/picocolors cache-miss
+30 silly fetch manifest sisteransi@^1.0.5
+31 silly packumentCache full:https://registry.npmjs.org/sisteransi cache-miss
+32 silly fetch manifest @clack/core@0.5.0
+33 silly packumentCache full:https://registry.npmjs.org/@clack%2fcore cache-miss
+34 http cache https://registry.npmjs.org/sisteransi 2ms (cache hit)
+35 silly packumentCache full:https://registry.npmjs.org/sisteransi set size:25723 disposed:false
+36 http cache https://registry.npmjs.org/picocolors 3ms (cache hit)
+37 silly packumentCache full:https://registry.npmjs.org/picocolors set size:16648 disposed:false
+38 http cache https://registry.npmjs.org/@clack%2fcore 4ms (cache hit)
+39 silly packumentCache full:https://registry.npmjs.org/@clack%2fcore set size:146938 disposed:false
+40 silly placeDep ROOT @clack/core@0.5.0 OK for: @clack/prompts@0.11.0 want: 0.5.0
+41 silly placeDep ROOT picocolors@1.1.1 OK for: @clack/prompts@0.11.0 want: ^1.0.0
+42 silly placeDep ROOT sisteransi@1.0.5 OK for: @clack/prompts@0.11.0 want: ^1.0.5
+43 silly reify mark retired [
+43 silly reify   '/private/tmp/.npm-cache/_npx/977be208c488555f/node_modules/altalt',
+43 silly reify   '/private/tmp/.npm-cache/_npx/977be208c488555f/node_modules/.bin/altalt'
+43 silly reify ]
+44 silly reify mark retired [
+44 silly reify   '/private/tmp/.npm-cache/_npx/977be208c488555f/node_modules/picocolors'
+44 silly reify ]
+45 silly reify mark retired [
+45 silly reify   '/private/tmp/.npm-cache/_npx/977be208c488555f/node_modules/@clack/core'
+45 silly reify ]
+46 silly reify mark retired [
+46 silly reify   '/private/tmp/.npm-cache/_npx/977be208c488555f/node_modules/sisteransi'
+46 silly reify ]
+47 silly reify mark retired [
+47 silly reify   '/private/tmp/.npm-cache/_npx/977be208c488555f/node_modules/@clack/prompts'
+47 silly reify ]
+48 silly reify moves {
+48 silly reify   '/private/tmp/.npm-cache/_npx/977be208c488555f/node_modules/altalt': '/private/tmp/.npm-cache/_npx/977be208c488555f/node_modules/.altalt-3RfVEdQU',
+48 silly reify   '/private/tmp/.npm-cache/_npx/977be208c488555f/node_modules/.bin/altalt': '/private/tmp/.npm-cache/_npx/977be208c488555f/node_modules/.bin/.altalt-JEVmoBYQ',
+48 silly reify   '/private/tmp/.npm-cache/_npx/977be208c488555f/node_modules/picocolors': '/private/tmp/.npm-cache/_npx/977be208c488555f/node_modules/.picocolors-k4KeENyc',
+48 silly reify   '/private/tmp/.npm-cache/_npx/977be208c488555f/node_modules/@clack/core': '/private/tmp/.npm-cache/_npx/977be208c488555f/node_modules/@clack/.core-senhQWvq',
+48 silly reify   '/private/tmp/.npm-cache/_npx/977be208c488555f/node_modules/sisteransi': '/private/tmp/.npm-cache/_npx/977be208c488555f/node_modules/.sisteransi-Bf1yD3E5',
+48 silly reify   '/private/tmp/.npm-cache/_npx/977be208c488555f/node_modules/@clack/prompts': '/private/tmp/.npm-cache/_npx/977be208c488555f/node_modules/@clack/.prompts-lUOAS0i4'
+48 silly reify }
+49 http cache @clack/prompts@https://registry.npmjs.org/@clack/prompts/-/prompts-0.11.0.tgz 0ms (cache hit)
+50 http cache sisteransi@https://registry.npmjs.org/sisteransi/-/sisteransi-1.0.5.tgz 0ms (cache hit)
+51 http cache @clack/core@https://registry.npmjs.org/@clack/core/-/core-0.5.0.tgz 0ms (cache hit)
+52 http cache picocolors@https://registry.npmjs.org/picocolors/-/picocolors-1.1.1.tgz 0ms (cache hit)
+53 http cache altalt@https://registry.npmjs.org/altalt/-/altalt-0.2.4.tgz 0ms (cache hit)
+54 verbose cwd /Users/faraazmustafa/VSCodee
+55 verbose os Darwin 25.6.0
+56 verbose node v24.16.0
+57 verbose npm  v11.13.0
+58 verbose exit 1
+59 verbose code 1
